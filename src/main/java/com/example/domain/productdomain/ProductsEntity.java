@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.domain.productdomain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +19,7 @@ public class ProductsEntity {
     private short quantityInStock;
     private BigDecimal buyPrice;
     private BigDecimal msrp;
+    private int resultCode;
+    private boolean deleted;
+    private boolean dirty;
 }
