@@ -70,6 +70,9 @@ public class ProductLineLogicImpl implements ProductLineLogic{
 
         if (errorCode.getNumErrors() == 0) {
             // save data here
+            for (Productlines productline : productlines) {
+                this.productLinesDao.saveProductLine(productline);
+            }
         }
         return productLineConfig;
     }
@@ -103,6 +106,7 @@ public class ProductLineLogicImpl implements ProductLineLogic{
                 productline.setTextDescription(productlinesEntity.getTextDescription());
                 productline.setHtmlDescription(productlinesEntity.getHtmlDescription());
                 productline.setImage(productlinesEntity.getTextDescription());
+                productlines.add(productline);
             }
         }
         return productlines;
@@ -110,9 +114,11 @@ public class ProductLineLogicImpl implements ProductLineLogic{
 
     private void checkEntity(int i, ProductlinesEntity productlinesEntity, ErrorCode errorCode) {
         List<Productlines> existProductLines = this.productLinesDao.getAllProductLines();
-        Set<String> productLines = existProductLines.stream().map(Productlines::getProductLine).collect(Collectors.toSet());
+        Set<String> productLines = existProductLines.stream()
+                .map(Productlines::getProductLine)
+                .collect(Collectors.toSet());
         String productLineChecked = productlinesEntity.getProductLine();
-        if (productLines.contains(productLineChecked)) {
+        if (productLines.contains(productLineChecked) && (productlinesEntity.getResultCode() == ErrorCodeMap.NEW_RECORD)) {
             errorCode.addErrorMsg(i, "ProductLines has been exist in database, please use another name");
         }
     }
