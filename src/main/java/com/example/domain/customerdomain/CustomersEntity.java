@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.domain.customerdomain;
 
 
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class CustomersEntity {
-    private int customerNumber;
+    private Integer customerNumber;
     private String customerName;
     private String contactLastName;
     private String contactFirstName;
@@ -24,4 +24,7 @@ public class CustomersEntity {
     private String country;
     private Integer salesRepEmployeeNumber;
     private BigDecimal creditLimit;
+    private int resultCode;
+    private boolean deleted;
+    private boolean dirty;
 }
