@@ -16,7 +16,7 @@ public class ProductsEntity {
     private String productScale;
     private String productVendor;
     private String productDescription;
-    private short quantityInStock;
+    private Short quantityInStock;
     private BigDecimal buyPrice;
     private BigDecimal msrp;
     private int resultCode;

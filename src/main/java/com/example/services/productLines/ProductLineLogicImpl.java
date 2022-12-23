@@ -3,13 +3,16 @@ package com.example.services.productLines;
 import com.example.Excercise1.entities.Productlines;
 import com.example.Excercise1.utils.ErrorCode;
 import com.example.Excercise1.utils.ErrorCodeMap;
+import com.example.Excercise1.utils.LogicEntity;
 import com.example.dao.productLines.ProductLinesDao;
 import com.example.domain.productlinedomain.ProductLineConfig;
 import com.example.domain.productlinedomain.ProductlinesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,10 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class ProductLineLogicImpl implements ProductLineLogic{
     private final ProductLinesDao productLinesDao;
+    private final LogicEntity logicEntity;
 
     @Autowired
-    public ProductLineLogicImpl(ProductLinesDao productLinesDao) {
+    public ProductLineLogicImpl(ProductLinesDao productLinesDao, LogicEntity logicEntity) {
         this.productLinesDao = productLinesDao;
+        this.logicEntity = logicEntity;
     }
 
     /**
@@ -47,16 +52,14 @@ public class ProductLineLogicImpl implements ProductLineLogic{
      */
     private void mergeProductLineEntity(Productlines productlines,  List<ProductlinesEntity> productsEntityList) {
         ProductlinesEntity productlinesEntity = new ProductlinesEntity();
-        productlinesEntity.setProductLine(productlines.getProductLine());
-        productlinesEntity.setImage(productlines.getImage());
-        productlinesEntity.setHtmlDescription(productlines.getHtmlDescription());
-        productlinesEntity.setTextDescription(productlines.getTextDescription());
+        this.logicEntity.setValue(productlines, productlinesEntity,
+                Arrays.asList("productLine", "textDescription", "htmlDescription", "image")
+        );
         productlinesEntity.setDeleted(false);
         productlinesEntity.setDirty(false);
         productlinesEntity.setResultCode(ErrorCodeMap.RECORD_FOUND);
         productsEntityList.add(productlinesEntity);
     }
-
     /**
      *
      * @param productLineConfig
@@ -103,9 +106,9 @@ public class ProductLineLogicImpl implements ProductLineLogic{
                     productline.setResultCode(productlinesEntity.getResultCode());
                     productline.setDirty(productlinesEntity.isDirty());
                 }
-                productline.setTextDescription(productlinesEntity.getTextDescription());
-                productline.setHtmlDescription(productlinesEntity.getHtmlDescription());
-                productline.setImage(productlinesEntity.getTextDescription());
+                this.logicEntity.setValue(productlinesEntity, productline,
+                        Arrays.asList("textDescription", "htmlDescription", "image"
+                ));
                 productlines.add(productline);
             }
         }

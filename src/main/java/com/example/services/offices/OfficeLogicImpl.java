@@ -3,23 +3,26 @@ package com.example.services.offices;
 import com.example.Excercise1.entities.Offices;
 import com.example.Excercise1.utils.ErrorCode;
 import com.example.Excercise1.utils.ErrorCodeMap;
+import com.example.Excercise1.utils.LogicEntity;
 import com.example.dao.offices.OfficeDao;
 import com.example.domain.officedomain.OfficesEntity;
 import com.example.domain.officedomain.OfficeConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class OfficeLogicImpl implements OfficeLogic {
-
     private final OfficeDao officeDao;
-
+    private final LogicEntity logicEntity;
     @Autowired
-    public OfficeLogicImpl(OfficeDao officeDao) {
+    public OfficeLogicImpl(OfficeDao officeDao, LogicEntity logicEntity) {
         this.officeDao = officeDao;
+        this.logicEntity = logicEntity;
     }
 
     /**
@@ -46,17 +49,12 @@ public class OfficeLogicImpl implements OfficeLogic {
      * @return
      */
     private OfficesEntity mergedOfficeToEntity(Offices offices) {
-        OfficesEntity officesEntity = new OfficesEntity();
-        officesEntity.setOfficeCode(offices.getOfficeCode());
-        officesEntity.setCity(offices.getCity());
-        officesEntity.setPhone(offices.getPhone());
-        officesEntity.setAddressLine1(offices.getAddressLine1());
-        officesEntity.setAddressLine2(offices.getAddressLine2());
-        officesEntity.setState(offices.getState());
-        officesEntity.setCountry(offices.getCountry());
-        officesEntity.setCountry(offices.getCountry());
-        officesEntity.setPostalCode(offices.getPostalCode());
-        officesEntity.setTerritory(offices.getTerritory());
+            OfficesEntity officesEntity = new OfficesEntity();
+            logicEntity.setValue(offices, officesEntity, Arrays.asList(
+                "officeCode", "city", "phone", "addressLine1",
+                "addressLine2", "state", "country", "postalCode",
+                "territory"
+        ));
         officesEntity.setResultCode(ErrorCodeMap.RECORD_FOUND);
         return officesEntity;
     }
@@ -120,20 +118,15 @@ public class OfficeLogicImpl implements OfficeLogic {
                     office.setResultCode(officesEntity.getResultCode());
                     office.setDirty(officesEntity.isDirty());
                 }
-                office.setCity(officesEntity.getCity());
-                office.setPhone(officesEntity.getPhone());
-                office.setAddressLine1(officesEntity.getAddressLine1());
-                office.setAddressLine2(officesEntity.getAddressLine2());
-                office.setState(officesEntity.getState());
-                office.setPostalCode(officesEntity.getPostalCode());
-                office.setTerritory(officesEntity.getTerritory());
-                office.setCountry(officesEntity.getCountry());
+                this.logicEntity.setValue(officesEntity, office,
+                        Arrays.asList(
+                            "city", "phone", "addressLine1", "addressLine2", "state", "country", "postalCode", "territory"
+                ));
                 offices.add(office);
             }
         }
         return offices;
     }
-
     /**
      *
      * @param officesEntity
