@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.domain.orderdomain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +15,7 @@ public class OrderdetailsEntity {
     private int quantityOrdered;
     private BigDecimal priceEach;
     private short orderLineNumber;
+    private int resultCode;
+    private boolean deleted;
+    private boolean dirty;
 }

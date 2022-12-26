@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProductLinesDao {
     public abstract List<Productlines> getAllProductLines();
     public abstract void saveProductLine(Productlines productlines);
+    public abstract Productlines getSingProductLine(String productline);
 }

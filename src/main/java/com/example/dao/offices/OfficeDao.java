@@ -9,4 +9,5 @@ public interface OfficeDao {
     public abstract void saveListOfOffice(Offices offices);
     public abstract int getMaxOfficeCode();
     public abstract Offices getOfficesByCodeId(int officeCodeId);
+    public abstract List<Offices> getOfficesByCity(List<String> cities);
 }

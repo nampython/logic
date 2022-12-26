@@ -2,6 +2,7 @@ package com.example.dao.offices;
 
 import com.example.Excercise1.entities.Offices;
 import com.example.Excercise1.repository.Dao;
+import com.example.Excercise1.utils.ErrorCodeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -19,9 +20,10 @@ public class OfficeDaoImpl implements OfficeDao{
         this.dao = dao;
     }
 
-    private static final String sql = "select * from offices";
-    private static final String MAX_OFFICE_CODE = "SELECT * FROM offices ORDER BY officeCode DESC LIMIT 1;";
-    private static final String GET_OFFICE_BY_OFFICE_CODE = "SELECT * FROM offices where officeCode = ?";
+    private static final String sql = "select * from " + ErrorCodeMap.OFFICE_TABLE;
+    private static final String MAX_OFFICE_CODE = "select * from " + ErrorCodeMap.OFFICE_TABLE +  " order by officecode desc limit 1;";
+    private static final String GET_OFFICE_BY_OFFICE_CODE = "select * from " + ErrorCodeMap.OFFICE_TABLE +  " where officecode = ?";
+    private static final String GET_OFFICE_BY_CITIES = "select * " + ErrorCodeMap.OFFICE_TABLE +  " where offices in (?, ?, ?)";
     @Override
     public List<Offices> getAllOffice() {
         return dao.getListOfValueObject(sql, Offices.class);
@@ -53,5 +55,11 @@ public class OfficeDaoImpl implements OfficeDao{
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    //TODO: Complete this function
+    @Override
+    public List<Offices> getOfficesByCity(List<String> cities) {
+        return null;
     }
 }
