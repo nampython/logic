@@ -1,4 +1,4 @@
-package com.example.domain;
+package com.example.domain.employeedomain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

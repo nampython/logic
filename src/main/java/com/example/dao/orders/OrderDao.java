@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface OrderDao {
     public abstract List<List<Value>> getOrdersDetailsCustomer();
+    public abstract List<List<Value>> getTotalOrderEachYear(List<Object> params);
 }

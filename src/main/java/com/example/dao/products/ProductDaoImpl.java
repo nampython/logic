@@ -12,17 +12,19 @@ import java.util.List;
 @Repository
 public class ProductDaoImpl implements ProductDao {
     private final Dao dao;
-    public static final String GET_ALL_PRODUCTS = "select * from products";
-
     @Autowired
     public ProductDaoImpl(Dao dao) {
         this.dao = dao;
     }
 
+    public static final String GET_ALL_PRODUCTS;
+    static {
+        GET_ALL_PRODUCTS =  "select * from products";
+    }
     @Override
     public List<Products> getAllProducts() {
         try {
-            return dao.getListOfValueObject(GET_ALL_PRODUCTS, Products.class);
+            return this.dao.getValueObjects(GET_ALL_PRODUCTS, Products.class);
         } catch (GetDataException e) {
             throw new RuntimeException(e);
         }

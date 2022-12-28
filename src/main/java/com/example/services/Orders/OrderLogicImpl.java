@@ -5,12 +5,12 @@ import com.example.Excercise1.valueObject.Value;
 import com.example.dao.orders.OrderDao;
 import com.example.domain.orderdomain.OrderDetailsCustomer;
 import com.example.domain.orderdomain.OrderDetailsCustomerConfig;
+import com.example.domain.orderdomain.OrderTotalYearConfig;
+import com.example.domain.orderdomain.OrderTotalYearEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderLogicImpl implements OrderLogic {
@@ -29,6 +29,28 @@ public class OrderLogicImpl implements OrderLogic {
         orderDetailsCustomerConfig.setOrderDetailsCustomers(orderDetailsCustomers);
         this.getOrderDetailsCustomer(orderDetailsCustomers);
         return orderDetailsCustomerConfig;
+    }
+
+    @Override
+    public OrderTotalYearConfig getOrderTotalYear(List<Object> params) {
+        OrderTotalYearConfig orderTotalYearConfig = new OrderTotalYearConfig();
+        List<OrderTotalYearEntity> orderTotalYearEntities = new ArrayList<>();
+        orderTotalYearConfig.setOrderTotalYearEntities(orderTotalYearEntities);
+        this.getOrderTotalYearEntities(orderTotalYearEntities, params);
+        return orderTotalYearConfig;
+    }
+
+    private void getOrderTotalYearEntities(List<OrderTotalYearEntity> orderTotalYearEntities, List<Object> params) {
+        List<List<Value>> totalOrderEachYear = this.orderDao.getTotalOrderEachYear(params);
+        Iterator<List<Value>> iterator = totalOrderEachYear.iterator();
+
+        while (iterator.hasNext()) {
+            List<Value> values = iterator.next();
+            OrderTotalYearEntity orderTotalYearEntity = new OrderTotalYearEntity();
+            orderTotalYearEntity.setYear(values.get(0).toString());
+            orderTotalYearEntity.setTotal(values.get(1).toBigDecimal());
+            orderTotalYearEntities.add(orderTotalYearEntity);
+        }
     }
 
     private void getOrderDetailsCustomer(List<OrderDetailsCustomer> orderDetailsCustomers) {

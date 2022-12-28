@@ -16,5 +16,4 @@ public class PaymentsEntity {
     private String checkNumber;
     private Date paymentDate;
     private BigDecimal amount;
-
 }
