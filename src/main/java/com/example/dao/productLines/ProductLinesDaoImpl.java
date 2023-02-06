@@ -20,6 +20,14 @@ import java.util.List;
 @Repository
 public class ProductLinesDaoImpl implements ProductLinesDao {
 
+    private static final String GET_PRODUCTLINES;
+    private static final String GET_SINGLE_PRODUCT_LINE;
+
+    static {
+        GET_PRODUCTLINES = "select * from " + ErrorCodeMap.PRODUCTLINES_TABLE;
+        GET_SINGLE_PRODUCT_LINE = "select * from " + ErrorCodeMap.PRODUCTLINES_TABLE + " where " + ErrorCodeMap.PRODUCTS_PRODUCTLINE + " = ?";
+    }
+
     private static final Logger log = LogManager.getLogger(ProductLinesDaoImpl.class);
     private final PreparedStatementDao preparedStatementDao;
     private final Dao dao;
@@ -28,14 +36,6 @@ public class ProductLinesDaoImpl implements ProductLinesDao {
     public ProductLinesDaoImpl(PreparedStatementDao preparedStatementDao, Dao dao) {
         this.preparedStatementDao = preparedStatementDao;
         this.dao = dao;
-    }
-
-    private static final String GET_PRODUCTLINES;
-    private static final String GET_SINGLE_PRODUCTLINE;
-
-    static {
-        GET_PRODUCTLINES = "select * from " + ErrorCodeMap.PRODUCTLINES_TABLE;
-        GET_SINGLE_PRODUCTLINE = "select * from " + ErrorCodeMap.PRODUCTLINES_TABLE + " where " + ErrorCodeMap.PRODUCTS_PRODUCTLINE + " = ?";
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ProductLinesDaoImpl implements ProductLinesDao {
     @Override
     public Productlines getSingProductLine(String productline) {
         try {
-            return this.preparedStatementDao.getSingleValueObject(GET_SINGLE_PRODUCTLINE, Collections.singletonList(productline), Productlines.class);
+            return this.preparedStatementDao.getSingleValueObject(GET_SINGLE_PRODUCT_LINE, Collections.singletonList(productline), Productlines.class);
         } catch (GetDataException e) {
             throw new DataAccessFailureException("");
         }

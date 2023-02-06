@@ -13,16 +13,6 @@ import java.util.List;
 
 @Repository
 public class OrderDaoImpl implements OrderDao {
-
-    private final Dao dao;
-    private final PreparedStatementDao preparedStatementDao;
-
-    @Autowired
-    public OrderDaoImpl(Dao dao, PreparedStatementDao preparedStatementDao) {
-        this.dao = dao;
-        this.preparedStatementDao = preparedStatementDao;
-    }
-
     private final static String GET_ORDER_CUSTOMERS;
     private final static String GET_TOTAL_ORDER_BY_YEAR;
 
@@ -42,6 +32,13 @@ public class OrderDaoImpl implements OrderDao {
                 " where status = ? " +
                 " group by year" +
                 " having year = ?;";
+    }
+    private final Dao dao;
+    private final PreparedStatementDao preparedStatementDao;
+    @Autowired
+    public OrderDaoImpl(Dao dao, PreparedStatementDao preparedStatementDao) {
+        this.dao = dao;
+        this.preparedStatementDao = preparedStatementDao;
     }
 
     @Override

@@ -11,16 +11,16 @@ import java.util.List;
 
 @Repository
 public class ProductDaoImpl implements ProductDao {
+    public static final String GET_ALL_PRODUCTS;
+    static {
+        GET_ALL_PRODUCTS =  "select * from products";
+    }
     private final Dao dao;
     @Autowired
     public ProductDaoImpl(Dao dao) {
         this.dao = dao;
     }
 
-    public static final String GET_ALL_PRODUCTS;
-    static {
-        GET_ALL_PRODUCTS =  "select * from products";
-    }
     @Override
     public List<Products> getAllProducts() {
         try {

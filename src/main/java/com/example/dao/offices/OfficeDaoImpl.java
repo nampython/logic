@@ -14,15 +14,6 @@ import java.util.List;
 
 @Repository
 public class OfficeDaoImpl implements OfficeDao {
-    private final Dao dao;
-    private final PreparedStatementDao preparedStatementDao;
-
-    @Autowired
-    public OfficeDaoImpl(Dao dao, PreparedStatementDao preparedStatementDao) {
-        this.dao = dao;
-        this.preparedStatementDao = preparedStatementDao;
-    }
-
     private static final String GET_ALL_OFFICES;
     private static final String MAX_OFFICE_CODE;
     private static final String GET_OFFICE_BY_OFFICE_CODE;
@@ -33,6 +24,13 @@ public class OfficeDaoImpl implements OfficeDao {
         MAX_OFFICE_CODE = "select * from " + ErrorCodeMap.OFFICE_TABLE + " order by " + ErrorCodeMap.OFFICE_OFFICE_CODE + " desc limit 1;";
         GET_OFFICE_BY_OFFICE_CODE = "select * from " + ErrorCodeMap.OFFICE_TABLE + " where " + ErrorCodeMap.OFFICE_OFFICE_CODE + " = ?";
         GET_OFFICE_BY_CITIES = "select * " + ErrorCodeMap.OFFICE_TABLE + " where " + ErrorCodeMap.OFFICE_TABLE + " in (?, ?, ?)";
+    }
+    private final Dao dao;
+    private final PreparedStatementDao preparedStatementDao;
+    @Autowired
+    public OfficeDaoImpl(Dao dao, PreparedStatementDao preparedStatementDao) {
+        this.dao = dao;
+        this.preparedStatementDao = preparedStatementDao;
     }
 
     @Override

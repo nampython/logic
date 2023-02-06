@@ -10,13 +10,6 @@ import java.util.List;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao {
-    private final Dao dao;
-
-    @Autowired
-    public EmployeeDaoImpl(Dao dao) {
-        this.dao = dao;
-    }
-
     private final static String GET_EMPLOYEE_CUSTOMER_PAYMENTS;
 
     static {
@@ -28,6 +21,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
                 ErrorCodeMap.CUSTOMERS_SALES_REP_EMPLOYEE_NUMBER + " left join " + ErrorCodeMap.PAYMENTS_TABLE + " on " + ErrorCodeMap.PAYMENTS_TABLE + "." +
                 ErrorCodeMap.CUSTOMERS_CUSTOMER_NUMBER + " = " + ErrorCodeMap.CUSTOMERS_TABLE + "." + ErrorCodeMap.CUSTOMERS_CUSTOMER_NUMBER +
                 " order by " + ErrorCodeMap.CUSTOMERS_CUSTOMER_NAME + ", " + ErrorCodeMap.PAYMENTS_CHECKNUMBER;
+    }
+    private final Dao dao;
+    @Autowired
+    public EmployeeDaoImpl(Dao dao) {
+        this.dao = dao;
     }
 
     @Override
